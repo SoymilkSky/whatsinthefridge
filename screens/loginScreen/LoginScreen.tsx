@@ -20,24 +20,12 @@ function LoginScreen() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
       if (user) {
-        navigation.navigate('HomeScreen');
+        navigation.navigate('HomeScreen' as never);
       }
     });
 
     return unsubscribe;
   }, []);
-
-  const handleSignup = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials: { user: any; }) => {
-        const user = userCredentials.user;
-        console.log(user.email);
-      })
-      .catch((error: any) => {
-        alert(error);
-      });
-  };
 
   const handleLogin = () => {
     auth
@@ -58,14 +46,14 @@ function LoginScreen() {
         <StatusBar style="auto" />
         <TextInput
           placeholder="E-mail Address"
-          value={email}
+          // value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
         />
         <TextInput
           secureTextEntry={true}
           placeholder="Password"
-          value={password}
+          // value={password}
           onChangeText={(text) => setPassword(text)}
           style={styles.input}
         />
@@ -75,7 +63,7 @@ function LoginScreen() {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterScreen')}
+          onPress={() => navigation.navigate('RegisterScreen' as never)}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Sign Up</Text>

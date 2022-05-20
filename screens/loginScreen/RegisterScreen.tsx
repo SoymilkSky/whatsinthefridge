@@ -14,13 +14,15 @@ import { auth } from "../../firebase";
 function RegisterScreen() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [verifyPassword, setVerifyPassword] = useState<string>("");
 
   const navigation = useNavigation();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
       if (user) {
-        navigation.navigate('HomeScreen');
+        auth.signOut();
+        navigation.navigate('SuccessfulRegister' as never);
       }
     });
 
@@ -28,6 +30,10 @@ function RegisterScreen() {
   }, []);
 
   const handleSignup = () => {
+    if (verifyPassword !== password) {
+      alert('passwords do not match');
+      return;
+    }
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials: { user: any; }) => {
@@ -57,6 +63,13 @@ function RegisterScreen() {
           onChangeText={(text) => setPassword(text)}
           style={styles.input}
         />
+        <TextInput
+          secureTextEntry={true}
+          placeholder="Verify Password"
+          value={verifyPassword}
+          onChangeText={(text) => setVerifyPassword(text)}
+          style={styles.input}
+        />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -66,7 +79,7 @@ function RegisterScreen() {
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('LoginScreen')}
+          onPress={() => navigation.navigate('LoginScreen' as never)}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Go Back</Text>
