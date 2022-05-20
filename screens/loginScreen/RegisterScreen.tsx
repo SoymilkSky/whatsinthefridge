@@ -11,7 +11,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigation } from '@react-navigation/core';
 import { auth } from "../../firebase";
 
-function LoginScreen() {
+function RegisterScreen() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -39,21 +39,9 @@ function LoginScreen() {
       });
   };
 
-  const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredentials: { user: any; }) => {
-        const user = userCredentials.user;
-        console.log('Logged in with: ', user.email);
-      })
-      .catch((error: any) => {
-        alert(error);
-      });
-  };
-
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text style={styles.name}>What's in your fridge?</Text>
+      <Text style={styles.name}>Register a new account</Text>
       <View style={styles.inputContainer}>
         <StatusBar style="auto" />
         <TextInput
@@ -71,18 +59,21 @@ function LoginScreen() {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
+        <TouchableOpacity
+          onPress={handleSignup}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterScreen')}
+          onPress={() => navigation.navigate('LoginScreen')}
           style={[styles.button, styles.buttonOutline]}
         >
-          <Text style={styles.buttonOutlineText}>Sign Up</Text>
+          <Text style={styles.buttonOutlineText}>Go Back</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -136,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
